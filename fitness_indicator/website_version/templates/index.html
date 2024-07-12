@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Indicator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script defer src = "/static/js/index.js"></script>
+</head>
+<body>
+    <h1>Health Indicator</h1>
+    <form id="form1">
+        <!-- Add input fields for push_up, pull_up, squats, fivekm_time, crunches -->
+        <input type="text" id="push_up" placeholder="push up">
+        <input type="text" id="pull_up" placeholder="pull up">
+        <input type="text" id="squat" placeholder="squat">
+        <input type="text" id="fivekm_time" placeholder="5km time">
+        <input type="text" id="crunches" placeholder="crunches">
+        <button type="button" onclick="calculateHealth()">Display results</button>
+        <button type="button" onclick="clearResults()">Clear results</button>
+
+    </form>
+    <form id="form2">
+        <!-- Add input fields for push_up, pull_up, squats, fivekm_time, crunches -->
+        <button type="button" onclick="addToDatabase()" class="custom-button">Add to database</button>
+        <button type="button" onclick="displayDatabase()" class ="custom-button">Display Database</button>
+    </form>
+    <div id="result"></div>
+</body>
+</html>
