@@ -6,11 +6,15 @@ class Character:
 	def __init__(self, op_game):
 		"""Initialises the character and sets it's original position"""
 		self.screen = op_game.screen
+		self.settings = op_game.settings
 		self.screen_rect = op_game.screen.get_rect()
 
 		# Load character image and get its rect
 		self.image = pygame.image.load('images/luffy.bmp')
 		self.rect = self.image.get_rect()
+
+		# Store a decimal value for the ship's horizontal position
+		self.x = float(self.rect.x)
 
 		# Movement flag
 		self.moving_right = False
@@ -21,10 +25,14 @@ class Character:
 
 	def update(self):
 		"""Update the character's position based on the movement flag."""
-		if self.moving_right:
-			self.rect.x += 1
-		if self.moving_left:
-			self.rect.x -= 1	
+		# Update the character's x value, not the rect
+		if self.moving_right and self.rect.right < self.screen_rect.right:
+			self.x += self.settings.character_speed
+		if self.moving_left and self.rect.left > 0:
+			self.x -= self.settings.character_speed
+
+		# Udate rect object from self.x
+		self.rect.x = self.x
 
 	def blitme(self):
 		"""Draw the character at its current location"""
