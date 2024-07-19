@@ -13,7 +13,7 @@ class Bullet(Sprite):
         self.colour = self.settings.bullet_colour
 
         # Create a bullet rect at (0,0) and then set current position.
-        self.rect = pygame.Rect(0,0,
+        self.rect = pygame.Rect(0, 0,
             self.settings.bullet_width,
             self.settings.bullet_height)
         # This will make bullet emerge from the top of the
@@ -27,7 +27,7 @@ class Bullet(Sprite):
         """Move the bullet up the screen"""
         # Update the decimal position of the bullet
         self.y -= self.settings.bullet_speed
-        # update the rect position
+        # Update the rect position
         self.rect.y = self.y
 
     def draw_bullet(self):
@@ -36,4 +36,3 @@ class Bullet(Sprite):
 
 
 
- 

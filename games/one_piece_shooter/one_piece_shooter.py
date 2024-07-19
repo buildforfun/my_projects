@@ -1,8 +1,10 @@
 import sys
 import pygame
+from time import sleep
 
 # Local imports
 from setting import Settings
+from game_stats import GameStats
 from character import Character
 from bullet import Bullet
 from target import Target
@@ -17,25 +19,31 @@ class OnePieceShooter:
         self.settings = Settings()
 
         # creates window
-        self.screen = pygame.display.set_mode((900, 450))
+        self.screen = pygame.display.set_mode((900, 800))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("One Piece Shooter")
+        # create objects
         self.character = Character(self)
         self.bullets = pygame.sprite.Group()
         self.targets = pygame.sprite.Group()
-
         self._create_fleet()
+
+        # Create an instance to store game statistics
+        self.stats = GameStats(self)
 
     def run_game(self):
         """Start the main loop for the game"""
         while True:
-            self.screen.fill([0,0,0])
             self._check_events()
-            self.character.update()
-            self._update_bullets()
+            
+            if self.stats.game_active:
+                self.character.update()
+                self._update_bullets()
+                self._update_targets()
+            
             self._update_screen()
-
+                
             # Make the most recently drawn screen visible
             pygame.display.flip()
             
@@ -80,20 +88,65 @@ class OnePieceShooter:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+        self._check_bullet_target_collisions()
+
+
     
+    def _check_bullet_target_collisions(self):
+        """Respond to bullet-target collisions """
+        collisions = pygame.sprite.groupcollide(
+            self.bullets, self.targets, True, True)
+        
+        if not self.targets:
+            # Destroy existings bullets and create new fleet
+            self.bullets.empty()
+            self._create_fleet()
+
+
+    def _update_targets(self):
+        """Check if fleet at edge and update the position of all targets"""
+        self._check_fleet_edges()
+        self.targets.update()
+
+        if pygame.sprite.spritecollideany(self.character, self.targets):
+            self._character_hit()
+
+        # Look for targets hitting the bottom of the screen
+        self._check_targets_bottom()
+
+
     def _create_fleet(self):
         """Create the fleet of targets"""
         # adding instane of target to group that will hold fleet
+        number_of_targets = 3
+        number_of_rows = 2
+        for row_no in range(number_of_rows):
+            for target_no in range(number_of_targets):
+                self._create_target(target_no, row_no)
+    
+    def _create_target(self,target_no, row_no):
+        # Create target and place it in the row
         target = Target(self)
         target_width = target.rect.width
-        for target_no in range(3):
-            # Create target and place it in the row
-            target = Target(self)
-            target.x = target_width + 2 * target_width * target_no
-            target.rect.x = target.x
-            self.targets.add(target)
+        target.x = target_width + 2 * target_width * target_no
+        target.rect.x = target.x
+        target.rect.y = target.rect.height + 2 * target.rect.height * row_no
+        self.targets.add(target)
     
+    def _check_fleet_edges(self):
+        """Respond appropriately if any targets have reached an edge"""
+        for target in self.targets.sprites():
+            if target.check_edges():
+                self._change_fleet_direction()
+                break
 
+    def _change_fleet_direction(self):
+        """Drop the entire fleet and change the fleet's direction"""
+        for target in self.targets.sprites():
+            target.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
+
+    
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         self.screen.fill(self.settings.bg_colour)
@@ -101,6 +154,36 @@ class OnePieceShooter:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.targets.draw(self.screen)
+
+    def _character_hit(self):
+        """Respond to the character being hit by a target"""
+        if self.stats.characters_left > 0:
+            # Decrement character_left
+            self.stats.characters_left -= 1
+
+            # Get rid of remaining targets and bullets
+            self.targets.empty()
+            self.bullets.empty()
+
+             # Create a new fleet and center the character
+            self._create_fleet()
+            self.character.center_character()
+
+            # Pause
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
+
+     
+    def _check_targets_bottom(self):
+        """Check if any targets have reached the bottom of the screen"""
+        screen_rect = self.screen.get_rect()
+        for target in self.targets.sprites():
+            if target.rect.bottom >= screen_rect.bottom:
+                # Treat this the same as if character got hit
+               self._ship_hit()
+               break
+
 
 if __name__ == '__main__':
     # Make a game instance, and run the game.
