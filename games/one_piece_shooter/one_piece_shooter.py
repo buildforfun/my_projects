@@ -5,6 +5,7 @@ from time import sleep
 # Local imports
 from setting import Settings
 from game_stats import GameStats
+from button import Button
 from character import Character
 from bullet import Bullet
 from target import Target
@@ -29,6 +30,9 @@ class OnePieceShooter:
         self.targets = pygame.sprite.Group()
         self._create_fleet()
 
+        # Make the play button
+        self.play_button = Button(self, "Play")
+
         # Create an instance to store game statistics
         self.stats = GameStats(self)
 
@@ -44,8 +48,7 @@ class OnePieceShooter:
             
             self._update_screen()
                 
-            # Make the most recently drawn screen visible
-            pygame.display.flip()
+
             
 
     def _check_events(self):
@@ -57,6 +60,9 @@ class OnePieceShooter:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
     
 
     def _check_keydown_events(self, event):                
@@ -113,16 +119,6 @@ class OnePieceShooter:
 
         # Look for targets hitting the bottom of the screen
         self._check_targets_bottom()
-
-
-    def _create_fleet(self):
-        """Create the fleet of targets"""
-        # adding instane of target to group that will hold fleet
-        number_of_targets = 3
-        number_of_rows = 2
-        for row_no in range(number_of_rows):
-            for target_no in range(number_of_targets):
-                self._create_target(target_no, row_no)
     
     def _create_target(self,target_no, row_no):
         # Create target and place it in the row
@@ -132,7 +128,16 @@ class OnePieceShooter:
         target.rect.x = target.x
         target.rect.y = target.rect.height + 2 * target.rect.height * row_no
         self.targets.add(target)
-    
+
+    def _create_fleet(self):
+        """Create the fleet of targets"""
+        # adding instane of target to group that will hold fleet
+        number_of_targets = 3
+        number_of_rows = 2
+        for row_no in range(number_of_rows):
+            for target_no in range(number_of_targets):
+                self._create_target(target_no, row_no)
+
     def _check_fleet_edges(self):
         """Respond appropriately if any targets have reached an edge"""
         for target in self.targets.sprites():
@@ -154,6 +159,13 @@ class OnePieceShooter:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.targets.draw(self.screen)
+        
+        # Draw the play button if the game is inactive
+        if not self.stats.game_active:
+            self.play_button.draw_button()
+        
+        # Make the most recently drawn screen visible
+        pygame.display.flip()
 
     def _character_hit(self):
         """Respond to the character being hit by a target"""
@@ -183,7 +195,11 @@ class OnePieceShooter:
                 # Treat this the same as if character got hit
                self._ship_hit()
                break
-
+    
+    def _check_play_button(self, mouse_pos):
+        """Starts a new game when player clicks Play"""
+        if self.play_button.rect.collidepoint(mouse_pos):
+            self.stats.game_active = True
 
 if __name__ == '__main__':
     # Make a game instance, and run the game.

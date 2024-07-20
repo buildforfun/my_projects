@@ -6,8 +6,8 @@ class GameStats:
         self.settings = op_game.settings
         self.reset_stats()
         
-        # Start One Piece in active state
-        self.game_active = True
+        # Start One Piece in inactive state
+        self.game_active = False
 
 
     def reset_stats(self):
