@@ -5,6 +5,7 @@ from time import sleep
 # Local imports
 from setting import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from character import Character
 from bullet import Bullet
@@ -20,7 +21,7 @@ class OnePieceShooter:
         self.settings = Settings()
 
         # creates window
-        self.screen = pygame.display.set_mode((900, 800))
+        self.screen = pygame.display.set_mode((900, 700))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("One Piece Shooter")
@@ -35,6 +36,10 @@ class OnePieceShooter:
 
         # Create an instance to store game statistics
         self.stats = GameStats(self)
+
+        # Create an instance to store game statistics
+        # and create a scoreboard.
+        self.sb = Scoreboard(self)
 
     def run_game(self):
         """Start the main loop for the game"""
@@ -96,17 +101,27 @@ class OnePieceShooter:
                 self.bullets.remove(bullet)
         self._check_bullet_target_collisions()
 
-
-    
     def _check_bullet_target_collisions(self):
         """Respond to bullet-target collisions """
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.targets, True, True)
         
+
+        if collisions:
+            for target in collisions.values():
+                self.stats.score += self.settings.target_points * len(self.targets)
+            self.sb.prep_score()
+            self.sb.check_high_score()
+
         if not self.targets:
             # Destroy existings bullets and create new fleet
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
+
+            # Increase level
+            self.stats.level += 1
+            self.sb.prep_level()
 
 
     def _update_targets(self):
@@ -132,7 +147,7 @@ class OnePieceShooter:
     def _create_fleet(self):
         """Create the fleet of targets"""
         # adding instane of target to group that will hold fleet
-        number_of_targets = 3
+        number_of_targets = 10
         number_of_rows = 2
         for row_no in range(number_of_rows):
             for target_no in range(number_of_targets):
@@ -159,6 +174,9 @@ class OnePieceShooter:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.targets.draw(self.screen)
+
+        # Draw the score information
+        self.sb.show_score()
         
         # Draw the play button if the game is inactive
         if not self.stats.game_active:
@@ -170,8 +188,9 @@ class OnePieceShooter:
     def _character_hit(self):
         """Respond to the character being hit by a target"""
         if self.stats.characters_left > 0:
-            # Decrement character_left
+            # Decrement character_left, and update scoreboard
             self.stats.characters_left -= 1
+            self.sb.prep_characters()
 
             # Get rid of remaining targets and bullets
             self.targets.empty()
@@ -185,6 +204,7 @@ class OnePieceShooter:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
      
     def _check_targets_bottom(self):
@@ -193,13 +213,33 @@ class OnePieceShooter:
         for target in self.targets.sprites():
             if target.rect.bottom >= screen_rect.bottom:
                 # Treat this the same as if character got hit
-               self._ship_hit()
+               self._character_hit()
                break
     
     def _check_play_button(self, mouse_pos):
         """Starts a new game when player clicks Play"""
-        if self.play_button.rect.collidepoint(mouse_pos):
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_active:
+            # Reset the game settings
+            self.settings.initialize_dynamic_settings()
+
+            # Reset game stats
+            self.stats.reset_stats()
             self.stats.game_active = True
+            self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_characters()
+
+            # Get rid of any remaining targets and bullets
+            self.targets.empty()
+            self.bullets.empty()
+
+            # Create a new fleet and center the character
+            self._create_fleet()
+            self.character.center_character()
+
+            # Hide the mouse cursor
+            pygame.mouse.set_cursor(False)
 
 if __name__ == '__main__':
     # Make a game instance, and run the game.

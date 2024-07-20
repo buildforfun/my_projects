@@ -12,7 +12,7 @@ class Target(Sprite):
         self.settings = op_game.settings
 
         # Load the target image and set its rect attribute
-        self.image = pygame.image.load('images/pirate_ship.bmp')
+        self.image = pygame.image.load('images/morty.bmp')
         self.rect = self.image.get_rect()
         
         # Start each new target near the top left of the screen
@@ -30,7 +30,6 @@ class Target(Sprite):
 
     def update(self):
         """Move the target left or right"""
-        self.x += (self.settings.target_speed * self.settings.fleet_direction)
+        self.x += self.settings.target_speed
         self.rect.x = self.x
-
 
