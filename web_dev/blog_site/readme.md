@@ -121,14 +121,55 @@ Django will call the function views.index(), which will render the page using th
 in which they’re strongest. For example, a database specialist can focus on the models, a programmer can focus on the view code, and a web designer can focus on the templates
 
 
+Additional pages
+----
+- a page that lists all topics and a page that shows all the entries
+- We’ll create a base template that all templates in the project can inherit from.
+  - When building a website, some elements will always need to be repeated on each page. Rather than writing these elements directly into each page, you can write a base template containing the repeated elements and then have each page inherit from the base
+  - a template tag, which is indicated by braces and percent signs {% %}. A template tag generates information to be displayed on a page
+  - In a simple HTML page, a link is surrounded by the anchor tag <a>
+  - Having the template tag generate the URL for us makes it much easier to keep our links up to date. We only need to change the URL pattern in urls.py, and Django will automatically insert the updated URL the next time
+  the page is requested
+  - Every page in our project will inherit from base.html,
+  so from now on, every page will have a link back to the home page
+  - we insert a pair of block tags - placeholder the child template will define the content
+  - update index html, this line pulls in everything contained in the base.html template and allows index.html to define what goes in the space reserved by the content block
+  - benefit of template inheritance: in a child template, we only need to include content that’s unique to that page. This not only simplifies each template, but also makes it much easier to modify the site. To modify an element common to many pages, you only need to modify the parent template. Your changes are then carried over to every
+  page that inherits from that template 
+- For each page, we’ll specify a URL pattern, write a view function, and write a template
+  - We’ll use the word topics, so the URL http:/localhost:8000/topics/ will return this page
+  - We’ve simply added topics/ into the string argument used for the home page URL
+  - When Django examines a requested URL, this pattern will match any URL that has the base URL followed by topics
+  - Any request with a URL that matches this pattern will then be passed to the function topics() in views.py
+  - The topics() function needs to retrieve some data from the database and send it to the template
+  - we query the database by asking for the Topic objects,
+sorted by the date_added attribute
+  - A context is a dictionary in which the keys are names we’ll use in the template to access the data, and the values are the data we need to send to the template
+  - When building a page that uses data, we pass the context variable to render() as well as the request object and the path to the template
 
+Topics template
+---
+- The template for the topics page receives the context dictionary, so the template can use the data that topics() provides
+- We use the {% extends %} tag to inherit from base.html
+- To print a variable in a template, wrap the variable name in double braces. The braces won’t appear on the page; they just indicate to Django that we’re using a template variable. So the code {{ topic }} at will be replaced by the value of topic on each pass through the loop
+- modify the base template to include a link to the topics page
+- We add a dash after the link to the home page u, and then add a link to the topics page using the {% url %} template tag again v. This linetells Django to generate a link matching the URL pattern with the name 'topics' in learning_logs/urls.py.
 
+Individual topic pages
+----
+- We’ll again define a new URL pattern, write a view, and create a template
+- We’ll also modify the topics page so each item in the bulleted list links to its corresponding topic page.
+- Let’s examine the string 'topics/<int:topic_id>/' in this RL pattern. The first part of the string tells Django to look for URLs that have the wordtopics after the base URL. The second part of the string, /<int:topic_id>/,matches an integer between two forward slashes and stores the integer value in an argument called topic_i
+- When Django finds a URL that matches this pattern, it calls the view function topic() with the value stored in topic_id as an argument. We’ll use the value of topic_id to get the correct topic inside the function.
+- We store the topic and entries in the context dictionary x and send context to the template topic.html
+- The template needs to display the name of the topic and the entries. We also need to inform the user if no entries have been made yet for this topic
+- we need to modify the topics template so each topic links to the appropriate page
+- We use the URL template tag to generate the proper link, based on the URL pattern in learning_logs with the name 'topic'. This URL pattern requires a topic_id argument, so we add the attribute topic.id to the URL template tag. Now each topic in the list of topics is a link to a topic page,such as http://localhost:8000/topics/1/.
 
+so far...
+----
 
-
-
-
-
-
-
+you learned how to build simple web applications using the
+Django framework. You wrote a brief project specification, installed Django to a virtual environment, set up a project, and checked that the project was set up correctly. You set up an app and defined models to represent the data for your app. You learned about databases and how Django helps you migrate your database after you make a change to your models. You created a superuser for the admin site, and you used the admin site to enter some initial data. You also explored the Django shell, which allows you to work with your project’s data in a terminal session. You learned to define URLs, create view
+functions, and write templates to make pages for your site. You also used template inheritance to simplify the structure of individual templates and make it easier to modify the site as the project evolves
 
