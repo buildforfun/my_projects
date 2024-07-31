@@ -173,3 +173,105 @@ you learned how to build simple web applications using the
 Django framework. You wrote a brief project specification, installed Django to a virtual environment, set up a project, and checked that the project was set up correctly. You set up an app and defined models to represent the data for your app. You learned about databases and how Django helps you migrate your database after you make a change to your models. You created a superuser for the admin site, and you used the admin site to enter some initial data. You also explored the Django shell, which allows you to work with your project’s data in a terminal session. You learned to define URLs, create view
 functions, and write templates to make pages for your site. You also used template inheritance to simplify the structure of individual templates and make it easier to modify the site as the project evolves
 
+
+# User accounts
+You’ll build forms so users can add their own topics and entries, and edit existing entries. You’ll also learn how Django guards against common attacks to form-based pages so you
+don’t have to spend much time thinking about securing your apps. You’ll also implement a user authentication system. You’ll build a registration page for users to create accounts, and then restrict access to certain
+pages to logged-in users only. 
+
+## Allow users to enter data
+- add pages that allow users to enter their own data
+- users can add new topic, add entry and edit previous entries
+
+### adding new topic
+----
+Adding a form-based page works in much the same way as the pages we’ve already built: we define a URL, write a view function, and write a template. Add forms.py.
+
+forms.py
+----
+-  simplest way to build a form in Django is to use a ModelForm, which uses the information from the models to automatically build a form
+-  a class called TopicForm, which inherits from forms.ModelForm
+-  a ModelForm consists of a nested Meta class telling Django which model to base the form on and which fields to include in the form
+-  Django not to generate a label for the text
+field
+- new topic URL - add url pattern.URL pattern sends requests to the view function new_topic().
+- The new_topic() function needs to handle two different situations:
+  - initial requests for the new_topic page (in which case it should show a blank form) and the processing of any data submitted in the form. 
+  - After data from a submitted form is processed, it needs to redirect the user back to the topics page.
+  - GET requests - for pages that only read data from the server
+  - POST requests - when the user needs to submit information through a form. 
+  - The new_topic() function takes in the request object as a parameter. When the user initially requests this page, their browser will send a GET request. Once the user has filled out and submitted the form, their browser will submit a POST request
+  - Depending on the request, we’ll know whether the user is requesting a blank form (a GET request) or asking us to process a completed form (a POST request)
+  <!-- #TODO add more on how function works -->
+new topic html
+----
+- we define an HTML form. The action argument tells the browser where to send the data submitted in the form; in this case, we send it back to the view function new_topic()
+- The method argument tells the browser to submit the data as a POST request
+- Django uses the template tag {% csrf_token %} v to prevent attackers from using the form to gain unauthorized access to the server (this kind of attack is called a cross-site request forgery)
+- we display the form; here you see how simple Django can make certain tasks, such as displaying a form. We only need to include the template variable {{ form.as_p }} for Django to create all the fields necessary to display the form automatically. The as_p modifier tells Django to render all the form elements in paragraph format, as a simple way to display the form neatly
+
+Adding new entries
+----
+- Now that the user can add a new topic, they’ll want to add new entries too
+- define a URL, view function, template and link to page
+- forms.py
+  - we include the widgets attribute
+  - A widget is an HTML form element, such as a single-line text box,multi-line text area, or drop-down list.
+- new entry urls
+  - This URL pattern matches any URL with the form http://localhost:
+8000/new_entry/id/, where id is a number matching the topic ID
+
+
+editting entries
+----
+- The URL for the page needs to pass the ID of the entry to be edited
+- The URL pattern sends requests that match this format to the view function edit_entry()
+- view function 
+  - when it received get request - returns a form for editing the entry
+  - when it received post request - it saves modified text into database
+- We then redirect to the topic page, where the user should see the updated version of the entry they edited
+
+
+setting up user accounts
+----
+- user registration and authorisation system
+- create a new app to contain the funcitonality and related to working with users.
+user app
+---
+- create new app: startapp
+- add app to INSTALLED_APPS in settings.py
+- include URLs from users 
+- we add line to include the file urls.py from users. This will match URL that starts with users.
+Login page
+----
+- use default login view that django has
+- import path function, then import include function so include some default authentical urls.
+login template
+----
+- we want the login view to process the form so we set the acion argument as the URL of the login page
+- the login view sends a form to the template, and it's up to us to display the form and add a submit button
+- we include a hidden form element 'next' the vlaue argument tells django where to redirect the user after they've lgoged in successfully.
+  
+
+loggin out
+---
+- we'll put a link to log out in base.html. 
+
+registration page
+----
+- registration URL - add URL patterns for registration page.
+- the pattern for the registration page matches the URL - sends requests ot register function
+- add register function to views -
+
+
+
+
+
+
+
+
+
+
+
+
+
