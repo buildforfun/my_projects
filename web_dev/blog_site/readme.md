@@ -264,14 +264,99 @@ registration page
 - add register function to views -
 
 
+Allow users to enter their own data
+----
+We’ll modify the Topic model so every topic belongs to a specific user.
+This will also take care of entries, because every entry belongs to a specific
+topic. We’ll start by restricting access to certain pages
+
+Django makes it easy to restrict access to certain pages to logged-in users
+through the @login_required decorator.
+
+A decorator is a directive placed just
+before a function definition that Python applies to the function before it
+runs, to alter how the function code behaves
+
+ As a result, Python knows to run the code in login_required()
+before the code in topics().
+
+Next, we need to connect the data to the user who submitted it. We need to
+connect only the data highest in the hierarchy to a user, and the lower-level
+data will follow. 
+
+Identifying Existing Users
+(ll_env)learning_log$ python manage.py shell
+u >>> from django.contrib.auth.models import User
+v >>> User.objects.all() 
+
+Migrating the Database
+Now that we know the IDs, we can migrate the database. When we do this,
+Python will ask us to connect the Topic model to a particular owner temporarily or to add a default to our models.py file to tell it what to do
+
+python manage.py makemigrations learning_logs
 
 
+To associate all existing topics with the original admin user, ll_admin, I
+entered the user ID of 1 at z. You can use the ID of any user you’ve created;
+it doesn’t have to be a superuser. Django then migrates the database using
+this value and generates the migration file 0003_topic_owner.py, which adds
+the field owner to the Topic model.
+
+When a user is logged in, the request object has a request.user attribute set that stores information about the user. The query Topic.objects
+.filter(owner=request.user) tells Django to retrieve only the Topic objects
+from the database whose owner attribute matches the current use
+
+Protecting a User’s Topics
+---
+We haven’t restricted access to the topic pages yet, so any registered user
+could try a bunch of URLs, like http://localhost:8000/topics/1/, and retrieve
+topic pages that happen to match
+
+Associating New Topics with the Current User
+
+we have access to the current user through the request object
+
+When we first call form.save(), we pass the commit=False argument because
+we need to modify the new topic before saving it to the database u. We then
+set the new topic’s owner attribute to the current user v. Finally, we call save()
+on the topic instance just defined w. Now the topic has all the required data
+and will save successfully.
+
+In this chapter, you learned to use forms to allow users to add new topics and entries, and edit existing entries. You then learned how to implement user accounts. You allowed existing users to log in and out, and used
+Django’s default UserCreationForm to let people create new accounts.
+After building a simple user authentication and registration system, you
+restricted access to logged-in users for certain pages using the @login_required
+decorator. You then attributed data to specific users through a foreign key
+relationship. You also learned to migrate the database when the migration
+requires you to specify some default data.
+Finally, you learned how to make sure a user can only see data that
+belongs to them by modifying the view functions. You retrieved appropriate data using the filter() method and compared the owner of the
+requested data to the currently logged in user.
+It might not always be immediately obvious what data you should make
+available and what data you should protect, but this skill will come with practice. The decisions we’ve made in this chapter to secure our users’ data also
+illustrate why working with others is a good idea when building a project:
+having someone else look over your project makes it more likely that you’ll
+spot vulnerable areas.
+You now have a fully functioning project running on your local machine.
 
 
+Styling
+----
+For the styling we’ll use the Bootstrap library- django-bootstrap4 app
+deploy using Heroku - lets you push your project to one of its servers
 
+Bootstrap is a large collection of styling tools. It also has a number of templates you can apply to your project to create an overall style
 
+we load the collection of template tags available in djangobootstrap4.
+Next, we declare this file as an HTML document.
 
+An HTML file is divided into two main parts, the head and the body.
+header
+----
+- The head of an HTML file doesn’t contain any content: it just tells the browser what it needs to know to display the page correctly
+- we include a title element for the page, which will display in the browser’s title bar whenever Learning Log is open
+- we use one of django-bootstrap4’s custom template tags, which tells Django to include all the Bootstrap style files
+- . The tag that follows enables all the interactive behavior you might use on a page, such as collapsible navigation bars.
 
-
-
-
+navigation bar
+---
