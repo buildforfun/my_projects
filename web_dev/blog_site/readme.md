@@ -360,3 +360,44 @@ header
 
 navigation bar
 ---
+The body of an HTML file contains the content users will see on a page.
+A <nav> element that indicates the page’s navigation links section.
+A selector determines which elements on a page a certain style rule applies to
+
+we set the project’s name to appear at the far left of the navigation
+bar and make it a link to the home page; it will appear on every page in the
+project. The navbar-brand selector styles this link so it stands out from the
+rest of the links and is a way of branding the site.
+
+
+the template defines a button that appears if the browser window
+is too narrow to display the whole navigation bar horizontally. 
+
+we open a new section of the navigation bar. The term div is short
+for division; you build a web page by dividing it into sections and defining
+style and behavior rules that apply to that section
+
+Any styling or behavior rules that are defined in an opening div tag affect everything you see until the next closing div tag, which is written as </div>. This is the beginning of the part of the navigation bar that will be collapsed on narrow screens and windows.
+
+we define a new set of links. Bootstrap defines navigation elements as items in an unordered list with style rules that make it look nothing like a list. Every link or element you need on the bar can be included as
+an item in one of these lists. Here, the only item in the list is our link to the
+Topics page
+
+
+we begin a new set of links by using another opening <ul> tag.
+You can have as many groups of links as you need on a page. This will be
+the group of links related to login and registration that appears on the
+right side of the navigation bar. The selector ml-auto is short for margin-leftautomatic: this selector examines the other elements in the navigation bar
+and works out a left margin that pushes this group of links to the right side
+of the screen
+
+defining main part of page
+----
+The main element is used for the most significant part of the body of a page.
+bootstrap selector container - group elements - place 2 divs
+- The first div element v contains a page_header block. We’ll use this block
+to title most pages
+- To make this section stand out from the rest of the page,
+we place some padding below the header. Padding refers to space between
+an element’s content and its border.
+- 
