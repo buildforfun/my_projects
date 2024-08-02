@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-iiq7-#&q41*n7g_7nz_8ic$#ji)_ap&fl&564di7*)#23d4+vt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -130,3 +130,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # My settings
 LOGIN_URL = 'users:login'
+
+# HEROKU SETTINGS
+import django_heroku
+django_heroku.settings(locals())

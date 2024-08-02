@@ -400,4 +400,31 @@ to title most pages
 - To make this section stand out from the rest of the page,
 we place some padding below the header. Padding refers to space between
 an element’s content and its border.
-- 
+
+
+Deploying the app!
+----
+
+Heroku - a webbased platform that allows you to manage the deployment of web applications. 
+Django is a dynamic web framework that requires server-side processing
+
+make an heroku account
+
+install heroku CLI: brew tap heroku/brew && brew install heroku
+Modifying settings.py for Heroku
+
+The psycopg2 package is required to manage the database that Heroku
+uses. The django-heroku package handles almost the entire configuration our
+app needs to run properly on Heroku servers. This includes managing the
+database and storing static files in a place where they can be served properly.
+Static files contain style rules and JavaScript files. The gunicorn package provides a server capable of serving apps in a live environment.
+
+Making a Procfile to Start Processe
+
+A Procfile tells Heroku which processes to start to properly serve the project.
+Save this one-line file as Procfile, with an uppercase P and no file extension,
+in the same directory as manage.py
+
+web: gunicorn blog_website.wsgi --log-file -
+
+This line tells Heroku to use gunicorn as a server and to use the settings in learning_log/wsgi.py to launch the app.
