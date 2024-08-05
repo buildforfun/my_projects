@@ -14,9 +14,9 @@ Completed list:
 - One piece shooter game
 - Github API
 - Hackernews API
+- Create a blog website (django)
 
 Possible futureu projects
 ---
-- Write a website from scratch
 - Build a gui in python
 - Make my own chrome extension
