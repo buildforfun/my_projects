@@ -15,6 +15,7 @@ Completed list:
 - Github API
 - Hackernews API
 - Create a blog website (django)
+- Very simple ML project - bird detector
 
 Possible futureu projects
 ---
