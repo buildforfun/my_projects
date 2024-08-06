@@ -1,8 +1,5 @@
 Hi, this repositry is to hold my projects
 
-Project list
-----
-
 Completed list:
 ---
 - Electricity produced by country
@@ -11,13 +8,14 @@ Completed list:
 - Personal home gas and elec data
 - Small arduino scripts
 - Random python scripts
+- Arduino mini projects
 - One piece shooter game
 - Github API
 - Hackernews API
 - Create a blog website (django)
 - Very simple ML project - bird detector
 
-Possible futureu projects
+Possible future projects:
 ---
 - Build a gui in python
 - Make my own chrome extension
