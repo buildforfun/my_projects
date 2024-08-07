@@ -14,6 +14,7 @@ Completed list:
 - Hackernews API
 - Create a blog website (django)
 - Very simple ML project - bird detector
+- Create a simple website - using Electricity produced by country data
 
 Possible future projects:
 ---
