@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Production Sources</title>
+</head>
+<body>
+    <h1>Sources of Electricity Production</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Country</th>
+                <th>Coal</th>
+                <th>Natural Gas</th>
+                <th>Oil</th>
+                <th>Hydropower</th>
+                <th>Renewable Sources</th>
+                <th>Nuclear</th>
+                <th>Access to Electricity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.Country }}</td>
+                <td>{{ row.Coal }}</td>
+                <td>{{ row.Natural_gas }}</td>
+                <td>{{ row.Oil }}</td>
+                <td>{{ row.Hydropower }}</td>
+                <td>{{ row.Renewable_sources }}</td>
+                <td>{{ row.Nuclear }}</td>
+                <td>{{ row.Access_to_electricity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
