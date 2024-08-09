@@ -15,6 +15,7 @@ Completed list:
 - Create a blog website (django)
 - Very simple ML project - bird detector
 - Create a simple website - using Electricity produced by country data
+- Simple ML projects - iris detector and bank market predictor
 
 Possible future projects:
 ---
