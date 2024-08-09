@@ -20,3 +20,8 @@ Depending on the data you have to teach the machine differently.
 1. Supervised learning: labelled data
 2. Unsupervised learning: unlabelled data
 3. Reinforcement learning
+
+# Supervised learning
+This is where the data you have has an input and a corresponding output. The machine then thinks of how to go from input to output. This means that when you give it new input it can map to a new output.
+
+Example applications: Say you want to separate things into classes like spam and predict numerical things like stock prices.
