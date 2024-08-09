@@ -25,3 +25,12 @@ Depending on the data you have to teach the machine differently.
 This is where the data you have has an input and a corresponding output. The machine then thinks of how to go from input to output. This means that when you give it new input it can map to a new output.
 
 Example applications: Say you want to separate things into classes like spam and predict numerical things like stock prices.
+
+# Unsupervised learning
+
+Unsupervised learning is where we have no output, so we only have input and it's up to the algorithmn to tell us something interesting about the data. It's usually used in the data exploration stage. In supervised we can check if we predicted the data correctly, but in unsupervised learning this is not possible as we don't know the answer.
+
+There are three types of Unsupervised learning:
+- Clustering: finds subgroups in data
+- Dimensionality Reduction: reduce dimensionality in data
+- Association rules: uncovers rules within the data e.g. if X then Y
