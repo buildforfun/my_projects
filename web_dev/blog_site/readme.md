@@ -428,3 +428,18 @@ in the same directory as manage.py
 web: gunicorn blog_website.wsgi --log-file -
 
 This line tells Heroku to use gunicorn as a server and to use the settings in learning_log/wsgi.py to launch the app.
+
+We don’t track changes to the local database, because it’s
+a bad habit: if you’re ever using SQLite on a server, you might accidentally
+overwrite the live database with your local test database when you push the
+project to the server. The asterisk in *.sqlite3 tells Git to ignore any file that
+ends with the extension .sqlite3
+
+
+Pushing to Heroku - requires payment.... 
+
+
+so went to PythonAnywhere. Followed instructions from:
+https://help.pythonanywhere.com/pages/DeployExistingDjangoProject/
+
+website: https://buildforfun.pythonanywhere.com/

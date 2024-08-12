@@ -4,7 +4,7 @@
 
 One sentence: Machine learning is teaching a machine to learn from data.
 
-Machine learning is teaching a machine to learn from data. This means programmers aren't needed to explicity do tasks, instead large amounts of data is fed into the machine and the machine uses algorithmns to identify patterns within the data. Using the patterns the machine creates a model that is used to make predictions or carry out tasks without being explicity told to do those tasks.
+Machine learning is creating models that learn from data. This means programmers aren't needed to explicity do tasks, instead large amounts of data is fed into the machine and the machine uses algorithmns to identify patterns within the data. Using the patterns the machine creates a model that is used to make predictions or carry out tasks without being explicity told to do those tasks.
 
 Machine learning model: A statistical representation of real-world process based on data
 
@@ -22,15 +22,21 @@ Depending on the data you have to teach the machine differently.
 3. Reinforcement learning
 
 # Supervised learning
-This is where the data you have has an input and a corresponding output. The machine then thinks of how to go from input to output. This means that when you give it new input it can map to a new output.
+This is where the data you have has an input and an output. The machine then thinks of how to go from input to output using the data you provided. This means that when you give it unknown inputs it can create an output. 
 
-Example applications: Say you want to separate things into classes like spam and predict numerical things like stock prices.
+Supervised learning has two major subcategories - classificiation and regression. Classification has discrete labels and regression has continuous labels.
+
+- Classification tasks: 
+- Regression tasks:
 
 # Unsupervised learning
+Unsupervised learning is where we have no labels, it's up to the model to tell us something interesting about the data.
 
-Unsupervised learning is where we have no output, so we only have input and it's up to the algorithmn to tell us something interesting about the data. It's usually used in the data exploration stage. In supervised we can check if we predicted the data correctly, but in unsupervised learning this is not possible as we don't know the answer.
+Unsupervised learning has two major subcategories - clustering and dimensionality reduction. 
+- Clustering algorithmns: identify groups of data
+- Dimensionality reduction algorithmns: tries to make the data as simple as possible
 
-There are three types of Unsupervised learning:
-- Clustering: finds subgroups in data
-- Dimensionality Reduction: reduce dimensionality in data
-- Association rules: uncovers rules within the data e.g. if X then Y
+
+
+
+
