@@ -37,6 +37,6 @@ Unsupervised learning has two major subcategories - clustering and dimensionalit
 - Dimensionality reduction algorithmns: tries to make the data as simple as possible
 
 
-
+![machine learning chart](machine_learning.png)
 
 
