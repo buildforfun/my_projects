@@ -8,9 +8,19 @@
 <body>
     <h1>Movie list</h1>
     <table>
-        <tr>
-            <th>Favourite movies</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>Favourite movies</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.Title }}</td>
+                <td>{{ row.IMDb_Rating }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </body>
 </html>

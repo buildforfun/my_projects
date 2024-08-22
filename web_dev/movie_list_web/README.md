@@ -9,4 +9,5 @@ movie data
 - api flask code
 - front end website - html code
 
-
+Screeshot of website:
+![website_image](website_img.png)
