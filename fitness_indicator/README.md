@@ -24,4 +24,7 @@ There is a growing focus on health, wellness and physical health. This is eviden
 -------------------------------------------
 I want to build a tool that I can use to mesure my fitness at any stage. Once a week, I am going to measure my status in all of these metrics: 
 - 5K time
-- 
+
+
+
+New: Added plot of weight over time

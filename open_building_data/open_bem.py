@@ -83,7 +83,8 @@ class OpenBEM:
 sns.set(style="whitegrid")
 sns.set_palette("viridis")
         
-file_path = "data/domestic-E09000006-Bromley/certificates.csv"
+#file_path = "all-domestic-certificates/domestic-E09000006-Bromley/certificates.csv"
+file_path = "all-domestic-certificates/domestic-E09000015-Harrow/certificates.csv"
 openepc = OpenBEM(file_path)
 openepc.read_data()
 openepc.process_data()
